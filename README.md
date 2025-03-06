@@ -16,8 +16,8 @@ A simple and intuitive task management app built with Flutter. This app allows u
 
 ## Screenshots
 
-| Home Screen | Add Task & Subtasks |
-|-------------|--------------------|
-| ![Home Screen](screenshots/home.png) | ![Add Task](screenshots/add_task.png)|
+| Home Screen | Add Task & Subtasks | Search Tasks
+|-------------|--------------------|--------------- |
+| ![Home Screen](screenshots/Screenshot.jpg) | ![Add Task](screenshots/Screenshot2.jpg)| ![Search Task](screenshots/Screenshot3.jpg)
 
 **Made with ❤️ by Fine Guy 21**
