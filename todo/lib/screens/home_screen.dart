@@ -116,19 +116,28 @@ class _HomeScreenState extends State<HomeScreen> {
         foregroundColor: AppColors.skeleton,
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                labelText: 'Search',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () => _filterTasks(_searchController.text),
+            child: SizedBox(
+              // width: MediaQuery.of(context).size.width * 0.75,
+              width: double.infinity,
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  labelText: 'Search Tasks',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () => _filterTasks(_searchController.text),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
                 ),
+                onChanged: _filterTasks,
               ),
-              onChanged: _filterTasks,
             ),
           ),
           Expanded(
@@ -160,6 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               return await showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
+                                  backgroundColor: AppColors.background,
+                                  elevation: 10,
                                   title: const Text('Delete Task'),
                                   content: const Text(
                                       'Are you sure you want to delete this task?'),
@@ -182,7 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               _deleteTask(index);
                             },
                             child: Card(
-                              color: _getTaskColor(index),
+                              // color: _getTaskColor(index) ,
+                              color: const Color(0xFFCFD8DC),
                               child: ExpansionTile(
                                 leading: task.subTasks.isEmpty
                                     ? Checkbox(
@@ -245,6 +257,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   : TextDecoration.none,
                                             ),
                                           ),
+                                          controlAffinity:
+                                              ListTileControlAffinity.leading,
                                           value: subTask.isCompleted,
                                           onChanged: (value) =>
                                               _toggleSubTaskStatus(
@@ -260,42 +274,102 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
           ),
+          Divider(),
+          SizedBox(
+              height: 70,
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                child: Text(
+                  'Thank You For Using Our App',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'serif',
+                      fontWeight: FontWeight.bold),
+                ),
+              )),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddTaskDialog(),
+        onPressed: () => _showAddTaskDialog(context),
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.background,
         child: const Icon(
           Icons.add_task_outlined,
-          size: 35,
+          size: 30,
         ),
       ),
     );
   }
 
-  void _showAddTaskDialog() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TaskDialog(
+  void _showAddTaskDialog(BuildContext context) {
+    // showDialog(
+    //   context: context,
+    //   builder: (context) => TaskDialog(
+    //     onSave: _addTask, // Your existing _addTask function
+    //   ),
+    // );
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return TaskDialog(
           onSave: _addTask,
-        ),
-        fullscreenDialog: true,
-      ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInOut,
+          ),
+          child: ScaleTransition(
+            scale: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOut,
+            ),
+            child: child,
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 300),
     );
   }
 
   void _showEditTaskDialog(int index, Task task) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TaskDialog(
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => TaskDialog(
+    //       task: task,
+    //       onSave: (updatedTask) => _editTask(index, updatedTask),
+    //     ),
+    //     fullscreenDialog: true,
+    //   ),
+    // );
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return TaskDialog(
           task: task,
           onSave: (updatedTask) => _editTask(index, updatedTask),
-        ),
-        fullscreenDialog: true,
-      ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInOut,
+          ),
+          child: ScaleTransition(
+            scale: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOut,
+            ),
+            child: child,
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 300),
     );
   }
 
