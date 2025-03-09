@@ -140,12 +140,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          Divider(),
           Expanded(
             child: isLoading
                 ? const SkeletonLoading()
                 : filteredTasks.isEmpty
                     ? const Center(
-                        child: Text('No tasks yet',
+                        child: Text('🤔 No tasks yet',
                             style:
                                 TextStyle(color: AppColors.text, fontSize: 23)))
                     : ListView.builder(
@@ -217,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Text(
                                             '${(task.completionPercentage * 100).toStringAsFixed(0)}%',
                                             style:
-                                                const TextStyle(fontSize: 12),
+                                                const TextStyle(fontSize: 10),
                                           ),
                                         ],
                                       ),
@@ -225,8 +226,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   task.title,
                                   style: TextStyle(
                                     color: AppColors.text,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'Lato',
                                     decoration: task.isCompleted
                                         ? TextDecoration.lineThrough
                                         : TextDecoration.none,
@@ -235,7 +237,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 subtitle: Text(
                                   task.description,
                                   style: TextStyle(
+                                    fontFamily: 'Lato',
                                     color: AppColors.text,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 17,
                                     decoration: task.isCompleted
                                         ? TextDecoration.lineThrough
                                         : TextDecoration.none,
@@ -279,15 +284,29 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 70,
               width: MediaQuery.of(context).size.width * 0.75,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                child: Text(
-                  'Thank You For Using Our App',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'serif',
-                      fontWeight: FontWeight.bold),
-                ),
-              )),
+                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Thank You For Using My App',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'serif',
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.text),
+                        ),
+                        TextSpan(
+                          text: '  Fine_Guy_21',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: AppColors.text,
+                              fontFamily: 'serif',
+                              fontWeight: FontWeight.normal),
+                        )
+                      ],
+                    ),
+                  ))),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -373,14 +392,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Color _getTaskColor(int index) {
-    final colors = [
-      const Color(0xFFF8BBD0),
-      const Color(0xFFC5CAE9),
-      const Color(0xFFB2DFDB),
-      const Color(0xFFFFCC80),
-      const Color(0xFFCFD8DC),
-    ];
-    return colors[index % colors.length];
-  }
+  // Color _getTaskColor(int index) {
+  //   final colors = [
+  //     const Color(0xFFF8BBD0),
+  //     const Color(0xFFC5CAE9),
+  //     const Color(0xFFB2DFDB),
+  //     const Color(0xFFFFCC80),
+  //     const Color(0xFFCFD8DC),
+  //   ];
+  //   return colors[index % colors.length];
+  // }
 }
